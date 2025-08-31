@@ -24,13 +24,6 @@ services:
       - FEISHU_APPSECRET=${FEISHU_APPSECRET}
       # AI服务配置
       - SPRING_AI_ZHIPUAI_API_KEY=${ZHIPUAI_API_KEY}
-    depends_on:
-      vector_db:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      ollama:
-        condition: service_started
     networks:
       - my-network
     restart: unless-stopped

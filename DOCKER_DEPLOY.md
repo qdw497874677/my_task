@@ -34,6 +34,11 @@ my-task/
    ```bash
    docker-compose up -d
    ```
+   
+进启动当前应用
+```bash
+docker-compose -f docker-compose-my-task.yml up -d
+```
 
 ### 2. 开发环境部署
 
