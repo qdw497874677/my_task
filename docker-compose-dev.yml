@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # 用于本地开发的简化配置
+  # 不包含应用本身，只包含依赖服务
+  redis:
+    image: redis:6.2
+    container_name: redis-dev
+    restart: always
+    hostname: redis
+    ports:
+      - "16379:6379"
+    volumes:
+      - ./dev-ops/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - my-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Redis管理界面
+  redis-admin:
+    image: spryker/redis-commander:0.8.0
+    container_name: redis-admin-dev
+    hostname: redis-commander
+    restart: always
+    ports:
+      - "18081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+      - HTTP_USER=admin
+      - HTTP_PASSWORD=admin
+    networks:
+      - my-network
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  # 向量数据库（PostgreSQL + pgvector插件）
+  vector_db:
+    image: pgvector/pgvector:pg15-trixie
+    container_name: vector_db-dev
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=vector_store
+    volumes:
+      - ./dev-ops/pgvector/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres-data-dev:/var/lib/postgresql/data
+    ports:
+      - "15432:5432"
+    healthcheck:
+      test: "pg_isready -U postgres -d vector_store"
+      interval: 2s
+      timeout: 20s
+      retries: 10
+    networks:
+      - my-network
+
+# 定义数据卷
+volumes:
+  postgres-data-dev:
+
+# 定义网络
+networks:
+  my-network:
+    driver: bridge
