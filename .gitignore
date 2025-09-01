@@ -30,3 +30,6 @@ replay_pid*
 # Application configuration
 application.yml
 application-dev.yml
+
+# Maven
+target/
