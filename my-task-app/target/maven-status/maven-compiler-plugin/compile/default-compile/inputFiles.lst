@@ -1,0 +1,16 @@
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/feishu/command/FeishuMessageProcessor.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/task/ScheduledTask.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/feishu/command/commands/EchoCommand.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/feishu/command/FeishuTaskCommandRegistry.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/feishu/FeishuClient.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/feishu/command/commands/StatusCommand.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/order/OrderServiceImpl.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/customer/CustomerServiceImpl.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/customer/executor/query/CustomerListByNameQryExe.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/feishu/command/commands/HelpCommand.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/feishu/command/FeishuTaskConfiguration.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/feishu/command/commands/UploadRagCommand.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/feishu/command/commands/AiCommand.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/feishu/command/commands/RagAiCommand.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/customer/executor/CustomerAddCmdExe.java
+/Users/quandawei/项目/my-task/my-task-app/src/main/java/com/qdw/task/feishu/command/FeishuTaskCommand.java

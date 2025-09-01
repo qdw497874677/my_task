@@ -1,0 +1,121 @@
+version: '3.8'
+
+services:
+  # 主应用服务
+  my-task-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-task-app
+    ports:
+      - "8080:8080"
+    environment:
+      # 指定使用prod配置文件
+      - SPRING_PROFILES_ACTIVE=prod
+      # 数据库连接配置
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      # Redis连接配置
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+      # Ollama配置
+      - SPRING_AI_OLLAMA_BASE_URL=${SPRING_AI_OLLAMA_BASE_URL}
+      # 飞书配置
+      - FEISHU_APPID=${FEISHU_APPID}
+      - FEISHU_APPSECRET=${FEISHU_APPSECRET}
+      # AI服务配置
+      - SPRING_AI_ZHIPUAI_API_KEY=${ZHIPUAI_API_KEY}
+      # OpenRouter API密钥（用于图像处理功能）
+      - SPRING_AI_OPENROUTE_API_KEY=${OPENROUTE_API_KEY}
+    depends_on:
+      vector_db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+    networks:
+      - my-network
+    restart: unless-stopped
+
+  # Ollama服务（用于运行AI模型）
+  ollama:
+    image: ollama/ollama:0.5.10
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - my-network
+
+  # Redis服务
+  redis:
+    image: redis:6.2
+    container_name: redis
+    restart: always
+    hostname: redis
+    ports:
+      - "16379:6379"
+    volumes:
+      - ./dev-ops/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - my-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Redis管理界面
+  redis-admin:
+    image: spryker/redis-commander:0.8.0
+    container_name: redis-admin
+    hostname: redis-commander
+    restart: always
+    ports:
+      - "18081:8081"
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+      - HTTP_USER=admin
+      - HTTP_PASSWORD=admin
+    networks:
+      - my-network
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  # 向量数据库（PostgreSQL + pgvector插件）
+  vector_db:
+    image: pgvector/pgvector:pg15-trixie
+    container_name: vector_db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=vector_store
+    volumes:
+      - ./dev-ops/pgvector/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "15432:5432"
+    healthcheck:
+      test: "pg_isready -U postgres -d vector_store"
+      interval: 2s
+      timeout: 20s
+      retries: 10
+    networks:
+      - my-network
+
+# 定义数据卷
+volumes:
+  ollama-data:
+  postgres-data:
+
+# 定义网络
+networks:
+  my-network:
+    driver: bridge

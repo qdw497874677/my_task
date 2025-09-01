@@ -1,0 +1,93 @@
+# docker-comopse -f docker-compose-environment.yml up -d
+version: '3'
+services:
+  ollama:
+    image: ollama/ollama:0.5.10
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+  redis:
+    image: redis:6.2
+    container_name: spring-ai-redis
+    restart: always
+    hostname: redis
+    privileged: true
+    ports:
+      - 16379:6379
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - my-network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  # RedisAdmin https://github.com/joeferner/redis-commander
+  # 账密 admin/admin
+  redis-admin:
+    image: spryker/redis-commander:0.8.0
+    container_name: spring-ai-redis-admin
+    hostname: redis-commander
+    restart: always
+    ports:
+      - 18081:8081
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+      - HTTP_USER=admin
+      - HTTP_PASSWORD=admin
+      - LANG=C.UTF-8
+      - LANGUAGE=C.UTF-8
+      - LC_ALL=C.UTF-8
+    networks:
+      - my-network
+    depends_on:
+      redis:
+        condition: service_healthy
+
+#  redis-stack-server:
+#    image: redis/redis-stack-server:latest
+#    container_name: spring-ai-redis-stack-server
+#    ports:
+#      - "16379:6379"
+#    # 如果使用 redis-stack 镜像，请解开注释，8001端口为 Redis Insight WEB UI 默认端口
+#      - "18001:8001"
+#    volumes:
+#      - ./redisStack/redis-stack.conf:/etc/redis-stack.conf
+#      # 1.使用主机绝对路径挂载数据
+#      - ./redisStack/data:/data
+#    # 2.如果使用 docker 卷挂载数据，需要定义 'volumes:'
+#    # - redis-data:/data
+#    command: [ "redis-server", "/etc/redis-stack.conf" ]
+#    restart: always
+
+  vector_db:
+    image: pgvector/pgvector:pg15-trixie
+    container_name: spring-ai-vector_db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=vector_store
+      - PGPASSWORD=postgres
+    volumes:
+      - ./pgvector/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - 15432:5432
+    healthcheck:
+      test: "pg_isready -U postgres -d vector_store"
+      interval: 2s
+      timeout: 20s
+      retries: 10
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

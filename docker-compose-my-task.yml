@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # 主应用服务
+  my-task-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-task-app
+    ports:
+      - "8080:8080"
+    environment:
+      # 数据库连接配置
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      # Redis连接配置
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+      # Ollama配置
+      - SPRING_AI_OLLAMA_BASE_URL=${SPRING_AI_OLLAMA_BASE_URL}
+      # 飞书配置
+      - FEISHU_APPID=${FEISHU_APPID}
+      - FEISHU_APPSECRET=${FEISHU_APPSECRET}
+      # AI服务配置
+      - SPRING_AI_ZHIPUAI_API_KEY=${ZHIPUAI_API_KEY}
+    networks:
+      - my-network
+    restart: unless-stopped
+
+# 定义网络
+networks:
+  my-network:
+    driver: bridge

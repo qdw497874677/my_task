@@ -1,0 +1,12 @@
+com/qdw/task/dto/data/CustomerDTO.class
+com/qdw/task/api/feishu/IFeishuBitTableService.class
+com/qdw/task/dto/data/ErrorCode.class
+com/qdw/task/dto/CustomerAddCmd.class
+com/qdw/task/dto/event/DomainEventConstant.class
+com/qdw/task/dto/CustomerListByNameQry.class
+com/qdw/task/api/feishu/IFeishuDriveService.class
+com/qdw/task/api/TaskService.class
+com/qdw/task/dto/event/CustomerCreatedEvent.class
+com/qdw/task/api/feishu/IFeishuService.class
+com/qdw/task/api/CustomerServiceI.class
+com/qdw/task/api/AudioSummaryService.class

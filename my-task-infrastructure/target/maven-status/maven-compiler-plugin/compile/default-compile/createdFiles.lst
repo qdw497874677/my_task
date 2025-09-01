@@ -1,0 +1,6 @@
+com/qdw/task/customer/CustomerDO.class
+com/qdw/task/config/DiamondConfig.class
+com/qdw/task/customer/CreditGatewayImpl.class
+com/qdw/task/customer/CustomerGatewayImpl.class
+com/qdw/task/customer/CustomerMapper.class
+com/qdw/task/order/OrderGatewayImpl.class

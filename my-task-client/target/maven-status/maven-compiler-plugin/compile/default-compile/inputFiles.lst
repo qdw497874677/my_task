@@ -1,0 +1,12 @@
+/Users/quandawei/项目/my-task/my-task-client/src/main/java/com/qdw/task/api/AudioSummaryService.java
+/Users/quandawei/项目/my-task/my-task-client/src/main/java/com/qdw/task/dto/data/CustomerDTO.java
+/Users/quandawei/项目/my-task/my-task-client/src/main/java/com/qdw/task/api/CustomerServiceI.java
+/Users/quandawei/项目/my-task/my-task-client/src/main/java/com/qdw/task/dto/CustomerListByNameQry.java
+/Users/quandawei/项目/my-task/my-task-client/src/main/java/com/qdw/task/dto/data/ErrorCode.java
+/Users/quandawei/项目/my-task/my-task-client/src/main/java/com/qdw/task/dto/event/CustomerCreatedEvent.java
+/Users/quandawei/项目/my-task/my-task-client/src/main/java/com/qdw/task/api/feishu/IFeishuDriveService.java
+/Users/quandawei/项目/my-task/my-task-client/src/main/java/com/qdw/task/dto/event/DomainEventConstant.java
+/Users/quandawei/项目/my-task/my-task-client/src/main/java/com/qdw/task/api/TaskService.java
+/Users/quandawei/项目/my-task/my-task-client/src/main/java/com/qdw/task/dto/CustomerAddCmd.java
+/Users/quandawei/项目/my-task/my-task-client/src/main/java/com/qdw/task/api/feishu/IFeishuBitTableService.java
+/Users/quandawei/项目/my-task/my-task-client/src/main/java/com/qdw/task/api/feishu/IFeishuService.java

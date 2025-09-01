@@ -1,0 +1,15 @@
+project.name=start
+
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/test
+spring.datasource.username=root
+spring.datasource.password=root
+
+
+feishu.appid=cli_a8f66e3df8fb100d
+feishu.appsecret=CFVrKX1w00ypHEqT1vInwdeKznwmYWpn
+
+# YouTube Downloader API Configuration
+youtube.downloader.api.url=http://100.112.248.109:18000
+youtube.downloader.api.key=YOUR_API_KEY_HERE
+
