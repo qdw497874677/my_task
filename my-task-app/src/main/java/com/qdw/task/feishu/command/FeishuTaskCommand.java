@@ -29,6 +29,24 @@ public interface FeishuTaskCommand {
     }
     
     /**
+     * 是否启用即时响应功能
+     * 当启用时，命令匹配后会立即返回一个提示信息让用户等待任务结果
+     * @return true表示启用即时响应，false表示不启用
+     */
+    default boolean isInstantResponseEnabled() {
+        return false;
+    }
+    
+    /**
+     * 获取即时响应消息
+     * 当启用即时响应功能时，返回给用户的消息
+     * @return 即时响应消息
+     */
+    default String getInstantResponseMessage() {
+        return "正在处理您的请求，请稍候...";
+    }
+    
+    /**
      * 执行命令
      * @param event 飞书消息事件
      * @return 执行结果

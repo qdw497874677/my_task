@@ -6,8 +6,8 @@ import com.qdw.task.feishu.command.FeishuTaskCommand;
 import org.springframework.stereotype.Component;
 
 /**
- * 回声命令实现
- * 将用户输入的文本原样返回
+ * 回显命令实现
+ * 将用户输入的内容原样返回
  */
 @Component
 public class EchoCommand implements FeishuTaskCommand {
@@ -19,13 +19,15 @@ public class EchoCommand implements FeishuTaskCommand {
     
     @Override
     public String getDescription() {
-        return "将用户输入的文本原样返回";
+        return "回显输入的内容";
     }
     
     @Override
     public String getUsage() {
-        return "echo <文本内容>";
+        return "echo <内容>";
     }
+    
+    // 注意：这个命令没有启用即时响应功能，默认返回false
     
     @Override
     public String execute(P2MessageReceiveV1 event) {
@@ -44,12 +46,12 @@ public class EchoCommand implements FeishuTaskCommand {
             String args = parts.length > 1 ? parts[1] : "";
             
             if (args.isEmpty()) {
-                return "用法: echo <文本内容>";
+                return "用法: echo <内容>";
             }
             
-            return args;
+            return "您输入的内容是: " + args;
         } catch (Exception e) {
-            return "处理回声命令时发生错误: " + e.getMessage();
+            return "处理回显命令时发生错误: " + e.getMessage();
         }
     }
     

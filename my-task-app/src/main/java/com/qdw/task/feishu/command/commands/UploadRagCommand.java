@@ -33,6 +33,16 @@ public class UploadRagCommand implements FeishuTaskCommand {
     }
     
     @Override
+    public boolean isInstantResponseEnabled() {
+        return true;
+    }
+    
+    @Override
+    public String getInstantResponseMessage() {
+        return "正在上传RAG文档，请稍候...";
+    }
+    
+    @Override
     public String execute(P2MessageReceiveV1 event) {
         try {
             // 获取消息内容

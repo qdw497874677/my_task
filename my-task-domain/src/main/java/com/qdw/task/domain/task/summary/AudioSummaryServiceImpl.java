@@ -5,7 +5,7 @@ import com.lark.oapi.service.bitable.v1.model.Condition;
 import com.lark.oapi.service.bitable.v1.model.FilterInfo;
 import com.lark.oapi.service.bitable.v1.model.SearchAppTableRecordReqBody;
 import com.lark.oapi.service.bitable.v1.model.SearchAppTableRecordResp;
-import com.qdw.task.api.AudioSummaryService;
+import com.qdw.task.api.task.AudioSummaryService;
 import com.qdw.task.api.feishu.IFeishuBitTableService;
 import com.qdw.task.api.feishu.IFeishuService;
 

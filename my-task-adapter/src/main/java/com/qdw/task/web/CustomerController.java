@@ -2,7 +2,7 @@ package com.qdw.task.web;
 
 import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.Response;
-import com.qdw.task.api.CustomerServiceI;
+import com.qdw.task.api.task.CustomerServiceI;
 import com.qdw.task.dto.CustomerAddCmd;
 import com.qdw.task.dto.CustomerListByNameQry;
 import com.qdw.task.dto.data.CustomerDTO;

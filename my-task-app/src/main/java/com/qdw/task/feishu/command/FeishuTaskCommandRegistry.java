@@ -54,6 +54,12 @@ public class FeishuTaskCommandRegistry {
             if (usage != null && !usage.isEmpty()) {
                 helpMessage.append(" (用法: ").append(usage).append(")");
             }
+            
+            // 显示即时响应功能状态
+            if (command.isInstantResponseEnabled()) {
+                helpMessage.append(" [即时响应]");
+            }
+            
             helpMessage.append("\n");
         }
         return helpMessage.toString();

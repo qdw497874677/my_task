@@ -1,6 +1,6 @@
 package com.qdw.task.domain.task;
 
-import com.qdw.task.api.TaskService;
+import com.qdw.task.api.task.TaskService;
 import com.qdw.task.domain.task.yt.YtTaskRouter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

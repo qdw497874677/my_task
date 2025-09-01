@@ -1,10 +1,9 @@
 package com.qdw.task.task;
 
-import com.qdw.task.api.TaskService;
+import com.qdw.task.api.task.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

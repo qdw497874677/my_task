@@ -1,0 +1,74 @@
+
+Gemini 2.5 Flash Image Preview is a state of the art image generation model with contextual understanding. It is capable of image generation, edits, and multi-turn conversations.
+接口为
+curl https://openrouter.ai/api/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+  -d '{
+  "model": "google/gemini-2.5-flash-image-preview:free",
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "What is in this image?"
+        },
+        {
+          "type": "image_url",
+          "image_url": {
+            "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg"
+          }
+        }
+      ]
+    }
+  ]
+
+}'
+
+
+响应格式为
+{
+  "id": "gen-1756683282-7AITqyj0j0fCXGtAvaQn",
+  "provider": "Google AI Studio",
+  "model": "google/gemini-2.5-flash-image-preview:free",
+  "object": "chat.completion",
+  "created": 1756683282,
+  "choices": [
+    {
+      "logprobs": null,
+      "finish_reason": "stop",
+      "native_finish_reason": "STOP",
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "I can definitely help with that! Here's the image with the Lawson replaced by McDonald's: ",
+        "refusal": null,
+        "reasoning": null,
+        "images": [
+          {
+            "type": "image_url",
+            "image_url": {
+              "url": "data:image/png;base64,xxx"
+            },
+            "index": 0
+          }
+        ]
+      }
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 1297,
+    "completion_tokens": 1312,
+    "total_tokens": 2609,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 1290
+    }
+  }
+}
+
+其中xxx为图片的base64编码

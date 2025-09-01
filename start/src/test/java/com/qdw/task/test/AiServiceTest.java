@@ -1,6 +1,8 @@
 package com.qdw.task.test;
 
 import com.alibaba.fastjson.JSONObject;
+import com.qdw.task.api.ai.AiImageProcessService;
+import com.qdw.task.domain.ai.image.IAiImageService;
 import com.qdw.task.domain.ai.IRAGService;
 import com.qdw.task.domain.ai.ZhipuAiServiceImpl;
 import org.junit.Test;
@@ -11,7 +13,6 @@ import org.springframework.ai.reader.tika.TikaDocumentReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -24,6 +25,12 @@ public class AiServiceTest {
 
     @Autowired
     IRAGService ragService;
+
+    @Autowired
+    private IAiImageService aiImageService;
+
+    @Autowired
+    private AiImageProcessService aiImageProcessService;
 
     @Test
     public void testOpenAi() {
@@ -49,6 +56,21 @@ public class AiServiceTest {
         ChatResponse chatResponse = zhipuAiService.generateRag("", "testTag", "权晓怡几岁了");
         System.out.println(JSONObject.toJSONString(chatResponse.getResult()));
     }
+
+    @Test
+    public void testImage() {
+        String s = aiImageService.processImageByUrl("", "https://i.imgs.ovh/2025/09/01/wC3aq.webp", "Replace Lawson with KFC");
+
+        System.out.println(s);
+    }
+
+    @Test
+    public void testImage2() {
+        String s = aiImageProcessService.processImage("https://i.imgs.ovh/2025/09/01/wC3aq.webp", "Replace Lawson with KFC");
+
+        System.out.println(s);
+    }
+
 
 
 }

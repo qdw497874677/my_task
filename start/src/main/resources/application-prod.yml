@@ -5,9 +5,9 @@ project:
 spring:
   ai:
     openroute:
-      api-key: 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
+      api-key: ${SPRING_AI_OPENROUTE_API_KEY:}
     ollama:
-      base-url: http://100.112.248.109:11434
+      base-url: ${SPRING_AI_OLLAMA_BASE_URL}
       embedding:
         options:
           num-batch: 512
@@ -15,7 +15,7 @@ spring:
     rag:
       embed: nomic-embed-text
     zhipuai:
-      api-key: fb1260a5c8a84a718a99a28627f37f39.zSlckhiameGhNR7M
+      api-key: ${ZHIPUAI_API_KEY}
     #      embedding-model: text-embedding-ada-002
     #    rag:
     #      embed: nomic-embed-text #nomic-embed-text、text-embedding-ada-002
@@ -27,9 +27,9 @@ spring:
 #        dimensions: 1536          # 与所用 Embedding 模型维度一致
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: postgres
-    url: jdbc:postgresql://100.112.248.109:15432/postgres
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL}
     type: com.zaxxer.hikari.HikariDataSource
     # hikari连接池配置
     hikari:
@@ -53,8 +53,8 @@ spring:
     redis:
       sdk:
         config:
-          host: 100.112.248.109
-          port: 16379
+          host: ${SPRING_DATA_REDIS_HOST}
+          port: ${SPRING_DATA_REDIS_PORT}
           pool-size: 10
           min-idle-size: 5
           idle-timeout: 30000
@@ -66,14 +66,14 @@ spring:
 
 
 feishu:
-  appid: cli_a8f66e3df8fb100d
-  appsecret: CFVrKX1w00ypHEqT1vInwdeKznwmYWpn
+  appid: ${FEISHU_APPID}
+  appsecret: ${FEISHU_APPSECRET}
 
     # YouTube Downloader API Configuration
 youtube:
   downloader:
     api:
-      url: http://100.112.248.109:18000
+      url: ${YOUTUBE_DOWNLOADER_API_URL}
       key: YOUR_API_KEY_HERE
 
 

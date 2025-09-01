@@ -3,7 +3,7 @@ package com.qdw.task.customer;
 import com.alibaba.cola.catchlog.CatchAndLog;
 import com.alibaba.cola.dto.MultiResponse;
 import com.alibaba.cola.dto.Response;
-import com.qdw.task.api.CustomerServiceI;
+import com.qdw.task.api.task.CustomerServiceI;
 import com.qdw.task.customer.executor.CustomerAddCmdExe;
 import com.qdw.task.customer.executor.query.CustomerListByNameQryExe;
 import com.qdw.task.dto.CustomerAddCmd;

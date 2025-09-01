@@ -10,6 +10,8 @@ services:
     ports:
       - "8080:8080"
     environment:
+      # 指定使用prod配置文件
+      - SPRING_PROFILES_ACTIVE=prod
       # 数据库连接配置
       - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -24,6 +26,8 @@ services:
       - FEISHU_APPSECRET=${FEISHU_APPSECRET}
       # AI服务配置
       - SPRING_AI_ZHIPUAI_API_KEY=${ZHIPUAI_API_KEY}
+      # OpenRouter API密钥（用于图像处理功能）
+      - SPRING_AI_OPENROUTE_API_KEY=${OPENROUTE_API_KEY}
     depends_on:
       vector_db:
         condition: service_healthy

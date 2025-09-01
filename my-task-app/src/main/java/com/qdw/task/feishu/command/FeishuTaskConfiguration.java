@@ -1,19 +1,13 @@
 package com.qdw.task.feishu.command;
 
-import com.qdw.task.feishu.command.commands.AiCommand;
-import com.qdw.task.feishu.command.commands.EchoCommand;
-import com.qdw.task.feishu.command.commands.HelpCommand;
-import com.qdw.task.feishu.command.commands.RagAiCommand;
-import com.qdw.task.feishu.command.commands.StatusCommand;
-import com.qdw.task.feishu.command.commands.UploadRagCommand;
+import com.qdw.task.feishu.command.commands.*;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
-import jakarta.annotation.PostConstruct;
-
 /**
- * 飞书任务配置类
- * 用于自动注册命令
+ * 飞书任务命令配置类
+ * 用于自动注册所有可用的命令
  */
 @Configuration
 public class FeishuTaskConfiguration {
@@ -21,34 +15,49 @@ public class FeishuTaskConfiguration {
     @Autowired
     private FeishuTaskCommandRegistry commandRegistry;
     
-    @Autowired
-    private HelpCommand helpCommand;
-    
-    @Autowired
-    private EchoCommand echoCommand;
-    
-    @Autowired
-    private StatusCommand statusCommand;
-    
-    @Autowired
+    @Autowired(required = false)
     private AiCommand aiCommand;
     
-    @Autowired
+    @Autowired(required = false)
     private RagAiCommand ragAiCommand;
     
-    @Autowired
+    @Autowired(required = false)
     private UploadRagCommand uploadRagCommand;
     
+    @Autowired(required = false)
+    private HelpCommand helpCommand;
+    
+    @Autowired(required = false)
+    private EchoCommand echoCommand;
+    
+    /**
+     * 初始化命令注册
+     */
     @PostConstruct
-    public void registerCommands() {
-        // 注册内置命令
-        commandRegistry.registerCommand(helpCommand);
-        commandRegistry.registerCommand(echoCommand);
-        commandRegistry.registerCommand(statusCommand);
-        commandRegistry.registerCommand(aiCommand);
-        commandRegistry.registerCommand(ragAiCommand);
-        commandRegistry.registerCommand(uploadRagCommand);
+    public void initCommands() {
+        // 注册AI命令
+        if (aiCommand != null) {
+            commandRegistry.registerCommand(aiCommand);
+        }
         
-        System.out.println("Registered " + commandRegistry.getAllCommands().size() + " commands");
+        // 注册RAG AI命令
+        if (ragAiCommand != null) {
+            commandRegistry.registerCommand(ragAiCommand);
+        }
+        
+        // 注册上传RAG文档命令
+        if (uploadRagCommand != null) {
+            commandRegistry.registerCommand(uploadRagCommand);
+        }
+        
+        // 注册帮助命令
+        if (helpCommand != null) {
+            commandRegistry.registerCommand(helpCommand);
+        }
+        
+        // 注册回显命令
+        if (echoCommand != null) {
+            commandRegistry.registerCommand(echoCommand);
+        }
     }
 }

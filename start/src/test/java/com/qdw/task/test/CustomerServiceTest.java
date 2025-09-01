@@ -1,15 +1,7 @@
 package com.qdw.task.test;
 
-import com.alibaba.cola.dto.Response;
-import com.qdw.task.api.CustomerServiceI;
-import com.qdw.task.dto.CustomerAddCmd;
-import com.qdw.task.dto.data.CustomerDTO;
-import com.qdw.task.dto.data.ErrorCode;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 

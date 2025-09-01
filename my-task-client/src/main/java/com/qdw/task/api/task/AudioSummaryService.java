@@ -1,4 +1,4 @@
-package com.qdw.task.api;
+package com.qdw.task.api.task;
 
 public interface AudioSummaryService {
 

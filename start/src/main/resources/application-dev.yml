@@ -5,7 +5,7 @@ project:
 spring:
   ai:
     openroute:
-      api-key: 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
+      api-key:
     ollama:
       base-url: http://100.112.248.109:11434
       embedding:
