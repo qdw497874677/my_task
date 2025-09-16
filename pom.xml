@@ -29,6 +29,7 @@
         <module>my-task-app</module>
         <module>my-task-domain</module>
         <module>my-task-infrastructure</module>
+        <module>my-task-common</module>
         <module>start</module>
     </modules>
 
@@ -78,6 +79,11 @@
             <dependency>
                 <groupId>com.qdw.task</groupId>
                 <artifactId>my-task-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.qdw.task</groupId>
+                <artifactId>my-task-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!--Project modules End-->

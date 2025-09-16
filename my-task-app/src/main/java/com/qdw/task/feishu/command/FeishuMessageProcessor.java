@@ -1,10 +1,11 @@
 package com.qdw.task.feishu.command;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lark.oapi.service.im.v1.model.P2MessageReceiveV1;
 import com.qdw.task.api.feishu.IFeishuService;
+import com.qdw.task.common.utils.FeishuMessageUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,12 +15,15 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class FeishuMessageProcessor {
-    
+
     @Autowired
     private FeishuTaskCommandRegistry commandRegistry;
-    
+
     @Autowired
     private IFeishuService feishuService;
+
+    @Value("${feishu.default-user-id:user_for_error_notifications}")
+    private String defaultUserId;
     
     /**
      * 处理飞书消息
@@ -32,7 +36,7 @@ public class FeishuMessageProcessor {
             log.info("Received message content: {}", content);
             
             // 解析消息内容
-            String textContent = parseMessageContent(content);
+            String textContent = FeishuMessageUtils.parseMessageContent(content);
             
             // 获取发送者信息
             String senderId = event.getEvent().getSender().getSenderId().getUserId();
@@ -50,29 +54,14 @@ public class FeishuMessageProcessor {
 
         } catch (Exception e) {
             log.error("Error processing message", e);
-            
+
             // 获取发送者信息
-            String senderId = "2ed1a7aa"; // 默认发送给固定用户
+            String senderId = defaultUserId; // 默认发送给固定用户
             sendResponse("处理消息时发生错误: " + e.getMessage(), senderId);
         }
     }
     
-    /**
-     * 解析消息内容
-     * @param content 原始消息内容
-     * @return 解析后的文本内容
-     */
-    private String parseMessageContent(String content) {
-        try {
-            // 飞书文本消息内容是JSON格式: {"text":"具体文本内容"}
-            JSONObject contentJson = JSONObject.parseObject(content);
-            return contentJson.getString("text");
-        } catch (Exception e) {
-            log.warn("Failed to parse message content as JSON, returning raw content: {}", content);
-            return content;
-        }
-    }
-    
+        
     /**
      * 处理命令
      * @param textContent 文本内容
@@ -146,6 +135,6 @@ public class FeishuMessageProcessor {
      * @param response 响应内容
      */
     private void sendResponse(String response) {
-        sendResponse(response, "2ed1a7aa", "user_id");
+        sendResponse(response, defaultUserId, "user_id");
     }
 }

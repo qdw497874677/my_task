@@ -26,6 +26,10 @@
             <groupId>com.qdw.task</groupId>
             <artifactId>my-task-infrastructure</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.qdw.task</groupId>
+            <artifactId>my-task-common</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.alibaba.cola</groupId>

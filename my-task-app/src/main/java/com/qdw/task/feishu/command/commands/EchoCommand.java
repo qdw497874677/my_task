@@ -1,7 +1,7 @@
 package com.qdw.task.feishu.command.commands;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lark.oapi.service.im.v1.model.P2MessageReceiveV1;
+import com.qdw.task.common.utils.FeishuMessageUtils;
 import com.qdw.task.feishu.command.FeishuTaskCommand;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +36,7 @@ public class EchoCommand implements FeishuTaskCommand {
             String content = event.getEvent().getMessage().getContent();
             
             // 解析消息内容
-            String textContent = parseMessageContent(content);
+            String textContent = FeishuMessageUtils.parseMessageContent(content);
             
             // 过滤掉飞书@机器人的标识（如@_user_1）
             textContent = textContent.replaceAll("@_user_\\d+", "").trim();
@@ -55,18 +55,4 @@ public class EchoCommand implements FeishuTaskCommand {
         }
     }
     
-    /**
-     * 解析消息内容
-     * @param content 原始消息内容
-     * @return 解析后的文本内容
-     */
-    private String parseMessageContent(String content) {
-        try {
-            // 飞书文本消息内容是JSON格式: {"text":"具体文本内容"}
-            JSONObject contentJson = JSONObject.parseObject(content);
-            return contentJson.getString("text");
-        } catch (Exception e) {
-            return content;
-        }
     }
-}

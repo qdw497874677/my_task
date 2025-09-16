@@ -68,6 +68,7 @@ spring:
 feishu:
   appid: cli_a8f66e3df8fb100d
   appsecret: CFVrKX1w00ypHEqT1vInwdeKznwmYWpn
+  default-user-id: user_for_error_notifications
 
     # YouTube Downloader API Configuration
 youtube:

@@ -56,6 +56,9 @@ public class FeishuServiceImpl implements IFeishuService {
     @Value("${feishu.appsecret}")
     private String appSecret;
 
+    @Value("${feishu.default-user-id:user_for_error_notifications}")
+    private String defaultUserId;
+
     private Client client;
 
     @PostConstruct
@@ -91,7 +94,7 @@ public class FeishuServiceImpl implements IFeishuService {
     @Override
     public CreateMessageRespBody sendMsg(String msg) {
         // 默认发送给固定用户
-        return sendMsg(msg, "2ed1a7aa", "user_id");
+        return sendMsg(msg, defaultUserId, "user_id");
     }
     
     @Override
