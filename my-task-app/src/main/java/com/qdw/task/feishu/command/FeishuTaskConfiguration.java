@@ -29,6 +29,9 @@ public class FeishuTaskConfiguration {
     
     @Autowired(required = false)
     private EchoCommand echoCommand;
+
+    @Autowired(required = false)
+    private TimeCommand timeCommand;
     
     /**
      * 初始化命令注册
@@ -58,6 +61,11 @@ public class FeishuTaskConfiguration {
         // 注册回显命令
         if (echoCommand != null) {
             commandRegistry.registerCommand(echoCommand);
+        }
+
+        // 注册时间命令
+        if (timeCommand != null) {
+            commandRegistry.registerCommand(timeCommand);
         }
     }
 }
