@@ -70,13 +70,26 @@ public class IAiImageServiceImpl implements IAiImageService {
         // 调用图像处理服务
         String response = imageProcessingService.processImageByUrl(apiKey, imageUrl, prompt);
 
+        if (response == null) {
+            throw new RuntimeException("图像处理服务返回空响应，请检查API密钥和网络连接");
+        }
+
         AiImageResponse aiImageResponse = JSONObject.parseObject(response, AiImageResponse.class);
 
-        // 从响应中提取图像数据
-        String imageData = imageProcessingService.extractImageDataFromResponse(response);
+        if (aiImageResponse == null || aiImageResponse.getChoices() == null || aiImageResponse.getChoices().isEmpty()) {
+            // 从响应中提取文本内容作为备选
+            String textContent = imageProcessingService.extractImageDataFromResponse(response);
+            return textContent != null ? textContent : "图像处理失败，无法解析API响应";
+        }
 
-        String url = aiImageResponse.getChoices().get(0).getMessage().getImages().get(0).getImageUrl().getUrl();
-        imageProcessingService.writeFile(url);
+        try {
+            String url = aiImageResponse.getChoices().get(0).getMessage().getImages().get(0).getImageUrl().getUrl();
+            imageProcessingService.writeFile(url);
+        } catch (Exception e) {
+            // 如果无法解析图像URL，尝试提取文本内容
+            String textContent = imageProcessingService.extractImageDataFromResponse(response);
+            return textContent != null ? textContent : "图像处理成功，但无法获取图像URL: " + e.getMessage();
+        }
 
         return null;
     }
@@ -92,11 +105,22 @@ public class IAiImageServiceImpl implements IAiImageService {
         // 调用图像处理服务
         String response = imageProcessingService.processImageByUrl(apiKey, imageUrl, prompt);
 
+        if (response == null) {
+            throw new RuntimeException("图像处理服务返回空响应，请检查API密钥和网络连接");
+        }
+
         AiImageResponse aiImageResponse = JSONObject.parseObject(response, AiImageResponse.class);
 
-        String url = aiImageResponse.getChoices().get(0).getMessage().getImages().get(0).getImageUrl().getUrl();
-        return imageProcessingService.transFile(url);
+        if (aiImageResponse == null || aiImageResponse.getChoices() == null || aiImageResponse.getChoices().isEmpty()) {
+            throw new RuntimeException("图像处理失败，无法解析API响应");
+        }
 
+        try {
+            String url = aiImageResponse.getChoices().get(0).getMessage().getImages().get(0).getImageUrl().getUrl();
+            return imageProcessingService.transFile(url);
+        } catch (Exception e) {
+            throw new RuntimeException("图像处理成功，但无法获取图像URL: " + e.getMessage());
+        }
     }
 
 

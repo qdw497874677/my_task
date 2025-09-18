@@ -34,7 +34,7 @@ public class AiServiceTest {
 
     @Test
     public void testOpenAi() {
-        ChatResponse response = zhipuAiService.generate("glm-4.5", "你好");
+        ChatResponse response = zhipuAiService.generate("glm-4.5-air", "你好");
         System.out.println(JSONObject.toJSONString(response));
     }
 

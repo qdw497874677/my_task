@@ -40,7 +40,7 @@ public class RagAiCommand implements FeishuTaskCommand {
     
     @Override
     public String getInstantResponseMessage() {
-        return "正在调用AI服务结合RAG知识库处理您的问题，请稍候...";
+        return "🧠 正在调用AI服务结合RAG知识库处理您的问题，预计需要15-30秒...";
     }
     
     @Override

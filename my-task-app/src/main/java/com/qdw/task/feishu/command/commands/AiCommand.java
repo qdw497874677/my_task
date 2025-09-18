@@ -40,7 +40,7 @@ public class AiCommand implements FeishuTaskCommand {
     
     @Override
     public String getInstantResponseMessage() {
-        return "正在调用AI服务处理您的问题，请稍候...";
+        return "🤖 正在调用AI服务处理您的问题，预计需要10-30秒...";
     }
     
     @Override

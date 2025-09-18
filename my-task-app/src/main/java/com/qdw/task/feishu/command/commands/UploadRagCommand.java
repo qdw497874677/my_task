@@ -39,7 +39,7 @@ public class UploadRagCommand implements FeishuTaskCommand {
     
     @Override
     public String getInstantResponseMessage() {
-        return "正在上传RAG文档，请稍候...";
+        return "📄 正在上传RAG文档，预计需要15-45秒...";
     }
     
     @Override

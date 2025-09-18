@@ -1,6 +1,5 @@
 package com.qdw.task.domain.ai;
 
-import ai.z.openapi.core.Constants;
 import com.alibaba.fastjson.JSONObject;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
@@ -52,7 +51,7 @@ public class ZhipuAiServiceImpl implements IAiService {
         System.out.println(zhipu_ai_api_key);
         ZhiPuAiApi zhiPuAiApi = new ZhiPuAiApi(apiKey);
         chatModel = new ZhiPuAiChatModel(zhiPuAiApi, ZhiPuAiChatOptions.builder()
-                .model(Constants.ModelChatGLM4_5)
+                .model("glm-4.5-air")
                 .temperature(0.5)
                 .maxTokens(1024)
                 .build());
