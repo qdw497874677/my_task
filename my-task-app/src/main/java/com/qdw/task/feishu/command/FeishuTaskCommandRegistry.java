@@ -1,5 +1,6 @@
 package com.qdw.task.feishu.command;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 飞书任务命令注册中心
  * 用于注册和管理所有可用的命令
  */
+@Slf4j
 @Component
 public class FeishuTaskCommandRegistry {
     
@@ -19,7 +21,9 @@ public class FeishuTaskCommandRegistry {
      * @param command 命令实例
      */
     public void registerCommand(FeishuTaskCommand command) {
-        commandMap.put(command.getCommandName().toLowerCase(), command);
+        String commandName = command.getCommandName().toLowerCase();
+        commandMap.put(commandName, command);
+        log.info("Registered command: {}, total commands: {}", commandName, commandMap.size());
     }
     
     /**
@@ -48,20 +52,25 @@ public class FeishuTaskCommandRegistry {
         for (FeishuTaskCommand command : commandMap.values()) {
             helpMessage.append("- ").append(command.getCommandName())
                     .append(" : ").append(command.getDescription());
-            
+
             // 添加使用示例（如果有的话）
             String usage = command.getUsage();
             if (usage != null && !usage.isEmpty()) {
                 helpMessage.append(" (用法: ").append(usage).append(")");
             }
-            
+
             // 显示即时响应功能状态
             if (command.isInstantResponseEnabled()) {
                 helpMessage.append(" [即时响应]");
             }
-            
+
             helpMessage.append("\n");
         }
+
+        if (commandMap.isEmpty()) {
+            helpMessage.append("（暂无可用命令）\n");
+        }
+
         return helpMessage.toString();
     }
 }

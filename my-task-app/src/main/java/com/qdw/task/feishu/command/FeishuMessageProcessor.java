@@ -167,6 +167,8 @@ public class FeishuMessageProcessor {
     private String handleAsyncCommand(String commandName, P2MessageReceiveV1 event) {
         String messageId = event.getEvent().getMessage().getMessageId();
         String senderId = event.getEvent().getSender().getSenderId().getUserId();
+        String chatId = event.getEvent().getMessage().getChatId();
+        String chatType = event.getEvent().getMessage().getChatType();
 
         // 获取即时响应消息
         String instantResponse = commandExecutor.getInstantResponseMessage(commandName);
@@ -176,8 +178,14 @@ public class FeishuMessageProcessor {
 
         commandFuture.thenAccept(result -> {
             try {
-                // 异步发送最终结果
-                sendResponse(result, senderId);
+                // 根据聊天类型决定回复位置
+                if ("group".equals(chatType)) {
+                    // 群聊中回复到群聊
+                    sendResponseToChat(result, chatId, messageId);
+                } else {
+                    // 私聊中回复给用户
+                    sendResponse(result, senderId);
+                }
                 log.info("Async command completed successfully: {}", commandName);
             } catch (Exception e) {
                 log.error("Error sending async command result: {}", commandName, e);
@@ -186,7 +194,13 @@ public class FeishuMessageProcessor {
             try {
                 // 发送错误消息
                 String errorMessage = "命令执行失败: " + throwable.getMessage();
-                sendResponse(errorMessage, senderId);
+                if ("group".equals(chatType)) {
+                    // 群聊中回复到群聊
+                    sendResponseToChat(errorMessage, chatId, messageId);
+                } else {
+                    // 私聊中回复给用户
+                    sendResponse(errorMessage, senderId);
+                }
                 log.error("Async command failed: {}", commandName, throwable);
             } catch (Exception e) {
                 log.error("Error sending async command error: {}", commandName, e);
@@ -229,11 +243,46 @@ public class FeishuMessageProcessor {
     }
     
     /**
+     * 发送响应消息到群聊
+     * @param response 响应内容
+     * @param chatId 群聊ID
+     * @param messageId 回复的消息ID
+     */
+    private void sendResponseToChat(String response, String chatId, String messageId) {
+        try {
+            feishuService.replyMessage(response, messageId, "chat_id");
+        } catch (Exception e) {
+            log.error("Failed to send response to chat", e);
+        }
+    }
+
+    /**
      * 发送响应消息（默认发送给固定用户）
      * @param response 响应内容
      */
     private void sendResponse(String response) {
         sendResponse(response, defaultUserId, "user_id");
+    }
+
+    /**
+     * 检查是否是问候语
+     * @param text 文本内容
+     * @return 是否是问候语
+     */
+    private boolean isGreeting(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            return false;
+        }
+
+        String[] greetings = {"你好", "您好", "hi", "hello", "嗨", "在吗", "在干嘛", "早上好", "下午好", "晚上好"};
+        String lowerText = text.toLowerCase().trim();
+
+        for (String greeting : greetings) {
+            if (lowerText.equals(greeting.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
