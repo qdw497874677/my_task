@@ -6,6 +6,7 @@ import com.qdw.task.domain.ai.IAiService;
 import com.qdw.task.feishu.command.FeishuTaskCommand;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class AiCommand implements FeishuTaskCommand {
     
     @Autowired
+    @Qualifier("zhipuAiServiceImpl")
     private IAiService aiService;
     
     @Override
@@ -64,7 +66,7 @@ public class AiCommand implements FeishuTaskCommand {
             }
             
             // 调用 AI 服务生成响应
-            ChatResponse response = aiService.generate("gpt-4o", args);
+            ChatResponse response = aiService.generate("anthropic/claude-3.5-sonnet", args);
             
             // 提取响应内容
             if (response != null && response.getResult() != null) {

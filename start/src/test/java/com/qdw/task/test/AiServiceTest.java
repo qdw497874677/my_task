@@ -5,6 +5,7 @@ import com.qdw.task.api.ai.AiImageProcessService;
 import com.qdw.task.domain.ai.image.IAiImageService;
 import com.qdw.task.domain.ai.IRAGService;
 import com.qdw.task.domain.ai.ZhipuAiServiceImpl;
+import com.qdw.task.domain.ai.OpenRouterAiServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -24,6 +25,10 @@ public class AiServiceTest {
     ZhipuAiServiceImpl zhipuAiService;
 
     @Autowired
+    OpenRouterAiServiceImpl openRouterAiService;
+
+  
+    @Autowired
     IRAGService ragService;
 
     @Autowired
@@ -38,6 +43,17 @@ public class AiServiceTest {
         System.out.println(JSONObject.toJSONString(response));
     }
 
+    @Test
+    public void testOpenRouter() {
+        try {
+            ChatResponse response = openRouterAiService.generate("anthropic/claude-3.5-sonnet", "你好");
+            System.out.println(JSONObject.toJSONString(response));
+        } catch (UnsupportedOperationException e) {
+            System.out.println("OpenRouter service not implemented yet: " + e.getMessage());
+        }
+    }
+
+  
     @Test
     public void testRag() {
         List<Document> documents = ragService.vectorStore();

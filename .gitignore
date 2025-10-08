@@ -25,3 +25,5 @@ bin/
 doc/
 .DS_Store
 .env
+*.log
+app.log

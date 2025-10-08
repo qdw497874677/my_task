@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@org.springframework.context.annotation.Primary
 public class ZhipuAiServiceImpl implements IAiService {
     private ZhiPuAiChatModel chatModel;
 
