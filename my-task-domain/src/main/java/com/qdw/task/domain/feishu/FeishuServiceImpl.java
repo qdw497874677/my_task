@@ -99,8 +99,9 @@ public class FeishuServiceImpl implements IFeishuService {
     
     @Override
     public CreateMessageRespBody sendMsg(String msg, String receiveId, String receiveIdType) {
-        // 创建请求对象
+        log.info("Sending message to {} with type {}: {}", receiveId, receiveIdType, msg);
 
+        // 创建请求对象
         CreateMessageReq req = CreateMessageReq.newBuilder()
                 .receiveIdType(receiveIdType)
                 .createMessageReqBody(CreateMessageReqBody.newBuilder()
@@ -116,24 +117,26 @@ public class FeishuServiceImpl implements IFeishuService {
         try {
             resp = client.im().v1().message().create(req);
         } catch (Exception e) {
-            System.out.println("sendMsg error:" + e.getMessage());
+            log.error("Failed to send message to {} with type {}", receiveId, receiveIdType, e);
             return null;
         }
 
         // 处理服务端错误
         if(!resp.success()) {
-            System.out.println(String.format("code:%s,msg:%s,reqId:%s, resp:%s",
-                    resp.getCode(), resp.getMsg(), resp.getRequestId(), JSONObject.toJSONString(resp.getRawResponse().getBody())));
+            log.error("Failed to send message to {} with type {}. Code: {}, Msg: {}, ReqId: {}",
+                    receiveId, receiveIdType, resp.getCode(), resp.getMsg(), resp.getRequestId());
             return null;
         }
 
         // 业务数据处理
-        System.out.println(JSONObject.toJSONString(resp.getData()));
+        log.info("Message sent successfully to {} with type {}", receiveId, receiveIdType);
         return resp.getData();
     }
 
     @Override
     public ReplyMessageResp replyMessage(String msg, String messageId, String receiveIdType) {
+        log.info("Replying to message {} with type {}: {}", messageId, receiveIdType, msg);
+
         // 创建请求对象
         ReplyMessageReq req = ReplyMessageReq.newBuilder().messageId(messageId)
                 .replyMessageReqBody(ReplyMessageReqBody.newBuilder()
@@ -146,21 +149,22 @@ public class FeishuServiceImpl implements IFeishuService {
                 .build();
 
         // 发起请求
-
         ReplyMessageResp resp = null;
         try {
             resp = client.im().v1().message().reply(req);
         } catch (Exception e) {
-            System.out.println("replyMessage error:" + e.getMessage());
+            log.error("Failed to reply to message {} with type {}", messageId, receiveIdType, e);
             return null;
         }
 
         // 处理服务端错误
         if(!resp.success()) {
-            System.out.println(String.format("code:%s,msg:%s,reqId:%s, resp:%s",
-                    resp.getCode(), resp.getMsg(), resp.getRequestId(), JSONObject.toJSONString(resp)));
+            log.error("Failed to reply to message {} with type {}. Code: {}, Msg: {}, ReqId: {}",
+                    messageId, receiveIdType, resp.getCode(), resp.getMsg(), resp.getRequestId());
             return null;
         }
+
+        log.info("Reply sent successfully to message {}", messageId);
         return resp;
     }
 
@@ -189,8 +193,8 @@ public class FeishuServiceImpl implements IFeishuService {
 
         // 处理服务端错误
         if(!resp.success()) {
-            System.out.println(String.format("code:%s,msg:%s,reqId:%s, resp:%s",
-                    resp.getCode(), resp.getMsg(), resp.getRequestId(), JSONObject.toJSONString(resp)));
+            log.error("Convert document failed. Code: {}, Msg: {}, ReqId: {}, Resp: {}",
+                    resp.getCode(), resp.getMsg(), resp.getRequestId(), JSONObject.toJSONString(resp));
             return null;
         }
         return resp;
@@ -219,8 +223,8 @@ public class FeishuServiceImpl implements IFeishuService {
 
         // 处理服务端错误
         if(!resp.success()) {
-            System.out.println(String.format("code:%s,msg:%s,reqId:%s, resp:%s",
-                    resp.getCode(), resp.getMsg(), resp.getRequestId(), JSONObject.toJSONString(resp)));
+            log.error("Create document failed. Code: {}, Msg: {}, ReqId: {}, Resp: {}",
+                    resp.getCode(), resp.getMsg(), resp.getRequestId(), JSONObject.toJSONString(resp));
             return null;
         }
         return resp;

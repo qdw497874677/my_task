@@ -69,6 +69,15 @@ feishu:
   appid: cli_a8f66e3df8fb100d
   appsecret: CFVrKX1w00ypHEqT1vInwdeKznwmYWpn
   default-user-id: user_for_error_notifications
+  message:
+    cache:
+      size: 1000
+  greetings: 你好,您好,hi,hello,嗨,在吗,在干嘛,早上好,下午好,晚上好
+  ai:
+    model: anthropic/claude-3.5-sonnet
+    image:
+      model: gemini-2.5-flash-image-preview
+      prompt: 请描述这张图片的内容
 
     # YouTube Downloader API Configuration
 youtube:

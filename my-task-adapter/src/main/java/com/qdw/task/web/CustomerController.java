@@ -8,6 +8,7 @@ import com.qdw.task.dto.CustomerListByNameQry;
 import com.qdw.task.dto.data.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.qdw.task.feishu.command.FeishuTaskCommandRegistry;
 
 @RestController
 public class CustomerController {
@@ -15,9 +16,17 @@ public class CustomerController {
     @Autowired
     private CustomerServiceI customerService;
 
+    @Autowired
+    private FeishuTaskCommandRegistry commandRegistry;
+
     @GetMapping(value = "/helloworld")
     public String helloWorld(){
         return "Hello, welcome to COLA world!";
+    }
+
+    @GetMapping(value = "/test-help")
+    public String testHelp(){
+        return commandRegistry.generateHelpMessage();
     }
 
     @GetMapping(value = "/customer")
