@@ -40,6 +40,9 @@ public class FeishuTaskConfiguration {
     @Autowired(required = false)
     private ImageCommand imageCommand;
 
+    @Autowired(required = false)
+    private DemonRouletteCommand demonRouletteCommand;
+
     // @Autowired(required = false)
     // private SrtCommand srtCommand;
     
@@ -74,6 +77,10 @@ public class FeishuTaskConfiguration {
 
         if (imageCommand != null) {
             commandRegistry.registerCommand(imageCommand);
+        }
+
+        if (demonRouletteCommand != null) {
+            commandRegistry.registerCommand(demonRouletteCommand);
         }
 
         // 注册SRT翻译命令
